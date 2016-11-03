@@ -1,0 +1,41 @@
+package com.gearcode.feawap.persistence;
+
+import com.gearcode.feawap.domain.News;
+import com.gearcode.feawap.domain.NewsExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+
+public interface NewsMapper {
+    int countByExample(NewsExample example);
+
+    int deleteByExample(NewsExample example);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(News record);
+
+    int insertSelective(News record);
+
+    List<News> selectByExampleWithBLOBsWithRowbounds(NewsExample example, RowBounds rowBounds);
+
+    List<News> selectByExampleWithBLOBs(NewsExample example);
+
+    List<News> selectByExampleWithRowbounds(NewsExample example, RowBounds rowBounds);
+
+    List<News> selectByExample(NewsExample example);
+
+    News selectByPrimaryKey(Integer id);
+
+    int updateByExampleSelective(@Param("record") News record, @Param("example") NewsExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") News record, @Param("example") NewsExample example);
+
+    int updateByExample(@Param("record") News record, @Param("example") NewsExample example);
+
+    int updateByPrimaryKeySelective(News record);
+
+    int updateByPrimaryKeyWithBLOBs(News record);
+
+    int updateByPrimaryKey(News record);
+}

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+				http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<!-- 自动扫描controller -->
+	<context:component-scan base-package="com.gearcode.feawap.web.controller" />
+	
+	<!-- 事物提升到controller -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 目前事物提升到了controller中所有的方法 -->
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>  
+		<aop:advisor advice-ref="transactionAdvice" pointcut="execution(* com.gearcode.feawap.web.controller.*.*(..))"/>  
+	</aop:config>
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean id="annotationMethodHandlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+					<constructor-arg>
+						<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+							<property name="streamDriver">
+								<bean class="com.thoughtworks.xstream.io.xml.DomDriver" />
+							</property>
+							<property name="encoding" value="utf-8"></property>
+							<property name="autodetectAnnotations" value="true" />
+						</bean>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="defaultContentType" value="text/html" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="viewClass"
+						value="org.springframework.web.servlet.view.JstlView" />
+					<property name="prefix" value="/WEB-INF/" />
+					<property name="suffix" value=".jsp" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+				<bean id="marshallingView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<property name="marshaller">
+						<bean id="xStreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+							<property name="autodetectAnnotations" value="true" />
+						</bean>
+					</property>
+					<property name="contentType" value="application/xml" />
+					<property name="modelKey" value="bean" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 设置上传文件, 一旦某个Request是一个MultipartRequest，它就会首先被MultipartResolver处理，然后再转发相应的Controller。 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+	
+	<!-- 设置jackson的objectMapper为自己实现的，为了进行日期格式的转换 -->
+	<bean id="customObjectMapper" class="com.gearcode.feawap.util.CustomObjectMapper"></bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+				<property name="objectMapper" ref="customObjectMapper"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+</beans>

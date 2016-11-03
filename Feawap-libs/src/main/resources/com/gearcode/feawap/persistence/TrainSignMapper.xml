@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gearcode.feawap.persistence.TrainSignMapper" >
+  <resultMap id="BaseResultMap" type="com.gearcode.feawap.domain.TrainSign" >
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="train_id" property="trainId" jdbcType="INTEGER" />
+    <result column="peoples" property="peoples" jdbcType="INTEGER" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="company_type" property="companyType" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+    <result column="work_address" property="workAddress" jdbcType="VARCHAR" />
+    <result column="department" property="department" jdbcType="VARCHAR" />
+    <result column="work_position" property="workPosition" jdbcType="VARCHAR" />
+    <result column="research_target" property="researchTarget" jdbcType="VARCHAR" />
+    <result column="software" property="software" jdbcType="VARCHAR" />
+    <result column="concern" property="concern" jdbcType="VARCHAR" />
+    <result column="vehicle" property="vehicle" jdbcType="VARCHAR" />
+    <result column="shift" property="shift" jdbcType="VARCHAR" />
+    <result column="hotel" property="hotel" jdbcType="VARCHAR" />
+    <result column="star" property="star" jdbcType="VARCHAR" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    user_id, train_id, peoples, company, company_type, industry, work_address, department, 
+    work_position, research_target, software, concern, vehicle, shift, hotel, star, cellphone, 
+    created
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.TrainSignExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.gearcode.feawap.domain.TrainSignExample" >
+    delete from train_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gearcode.feawap.domain.TrainSign" >
+    insert into train_sign (user_id, train_id, peoples, 
+      company, company_type, industry, 
+      work_address, department, work_position, 
+      research_target, software, concern, 
+      vehicle, shift, hotel, 
+      star, cellphone, created
+      )
+    values (#{userId,jdbcType=INTEGER}, #{trainId,jdbcType=INTEGER}, #{peoples,jdbcType=INTEGER}, 
+      #{company,jdbcType=VARCHAR}, #{companyType,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{workAddress,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, #{workPosition,jdbcType=VARCHAR}, 
+      #{researchTarget,jdbcType=VARCHAR}, #{software,jdbcType=VARCHAR}, #{concern,jdbcType=VARCHAR}, 
+      #{vehicle,jdbcType=VARCHAR}, #{shift,jdbcType=VARCHAR}, #{hotel,jdbcType=VARCHAR}, 
+      #{star,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gearcode.feawap.domain.TrainSign" >
+    insert into train_sign
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="trainId != null" >
+        train_id,
+      </if>
+      <if test="peoples != null" >
+        peoples,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="companyType != null" >
+        company_type,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="workAddress != null" >
+        work_address,
+      </if>
+      <if test="department != null" >
+        department,
+      </if>
+      <if test="workPosition != null" >
+        work_position,
+      </if>
+      <if test="researchTarget != null" >
+        research_target,
+      </if>
+      <if test="software != null" >
+        software,
+      </if>
+      <if test="concern != null" >
+        concern,
+      </if>
+      <if test="vehicle != null" >
+        vehicle,
+      </if>
+      <if test="shift != null" >
+        shift,
+      </if>
+      <if test="hotel != null" >
+        hotel,
+      </if>
+      <if test="star != null" >
+        star,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="trainId != null" >
+        #{trainId,jdbcType=INTEGER},
+      </if>
+      <if test="peoples != null" >
+        #{peoples,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="companyType != null" >
+        #{companyType,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="workAddress != null" >
+        #{workAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="workPosition != null" >
+        #{workPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="researchTarget != null" >
+        #{researchTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="software != null" >
+        #{software,jdbcType=VARCHAR},
+      </if>
+      <if test="concern != null" >
+        #{concern,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicle != null" >
+        #{vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="shift != null" >
+        #{shift,jdbcType=VARCHAR},
+      </if>
+      <if test="hotel != null" >
+        #{hotel,jdbcType=VARCHAR},
+      </if>
+      <if test="star != null" >
+        #{star,jdbcType=VARCHAR},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gearcode.feawap.domain.TrainSignExample" resultType="java.lang.Integer" >
+    select count(*) from train_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update train_sign
+    <set >
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainId != null" >
+        train_id = #{record.trainId,jdbcType=INTEGER},
+      </if>
+      <if test="record.peoples != null" >
+        peoples = #{record.peoples,jdbcType=INTEGER},
+      </if>
+      <if test="record.company != null" >
+        company = #{record.company,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyType != null" >
+        company_type = #{record.companyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null" >
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workAddress != null" >
+        work_address = #{record.workAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.department != null" >
+        department = #{record.department,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workPosition != null" >
+        work_position = #{record.workPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.researchTarget != null" >
+        research_target = #{record.researchTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="record.software != null" >
+        software = #{record.software,jdbcType=VARCHAR},
+      </if>
+      <if test="record.concern != null" >
+        concern = #{record.concern,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicle != null" >
+        vehicle = #{record.vehicle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shift != null" >
+        shift = #{record.shift,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hotel != null" >
+        hotel = #{record.hotel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.star != null" >
+        star = #{record.star,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellphone != null" >
+        cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update train_sign
+    set user_id = #{record.userId,jdbcType=INTEGER},
+      train_id = #{record.trainId,jdbcType=INTEGER},
+      peoples = #{record.peoples,jdbcType=INTEGER},
+      company = #{record.company,jdbcType=VARCHAR},
+      company_type = #{record.companyType,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      work_address = #{record.workAddress,jdbcType=VARCHAR},
+      department = #{record.department,jdbcType=VARCHAR},
+      work_position = #{record.workPosition,jdbcType=VARCHAR},
+      research_target = #{record.researchTarget,jdbcType=VARCHAR},
+      software = #{record.software,jdbcType=VARCHAR},
+      concern = #{record.concern,jdbcType=VARCHAR},
+      vehicle = #{record.vehicle,jdbcType=VARCHAR},
+      shift = #{record.shift,jdbcType=VARCHAR},
+      hotel = #{record.hotel,jdbcType=VARCHAR},
+      star = #{record.star,jdbcType=VARCHAR},
+      cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.TrainSignExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train_sign
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gearcode.feawap.persistence.TrainMapper" >
+  <resultMap id="BaseResultMap" type="com.gearcode.feawap.domain.Train" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="start" property="start" jdbcType="TIMESTAMP" />
+    <result column="end" property="end" jdbcType="TIMESTAMP" />
+    <result column="days" property="days" jdbcType="INTEGER" />
+    <result column="peoples" property="peoples" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="INTEGER" />
+    <result column="place" property="place" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="position_title" property="positionTitle" jdbcType="VARCHAR" />
+    <result column="position_description" property="positionDescription" jdbcType="VARCHAR" />
+    <result column="position_lat" property="positionLat" jdbcType="DOUBLE" />
+    <result column="position_lng" property="positionLng" jdbcType="DOUBLE" />
+    <result column="hotels" property="hotels" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.gearcode.feawap.domain.Train" extends="BaseResultMap" >
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, start, end, days, peoples, cost, place, address, icon, type, update_time, 
+    created, color, position_title, position_description, position_lat, position_lng, 
+    hotels
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.gearcode.feawap.domain.TrainExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.TrainExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from train
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from train
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gearcode.feawap.domain.TrainExample" >
+    delete from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gearcode.feawap.domain.Train" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into train (title, start, end, 
+      days, peoples, cost, 
+      place, address, icon, 
+      type, update_time, created, 
+      color, position_title, position_description, 
+      position_lat, position_lng, hotels, 
+      description)
+    values (#{title,jdbcType=VARCHAR}, #{start,jdbcType=TIMESTAMP}, #{end,jdbcType=TIMESTAMP}, 
+      #{days,jdbcType=INTEGER}, #{peoples,jdbcType=INTEGER}, #{cost,jdbcType=INTEGER}, 
+      #{place,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, 
+      #{color,jdbcType=VARCHAR}, #{positionTitle,jdbcType=VARCHAR}, #{positionDescription,jdbcType=VARCHAR}, 
+      #{positionLat,jdbcType=DOUBLE}, #{positionLng,jdbcType=DOUBLE}, #{hotels,jdbcType=VARCHAR}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gearcode.feawap.domain.Train" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into train
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="start != null" >
+        start,
+      </if>
+      <if test="end != null" >
+        end,
+      </if>
+      <if test="days != null" >
+        days,
+      </if>
+      <if test="peoples != null" >
+        peoples,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="place != null" >
+        place,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="positionTitle != null" >
+        position_title,
+      </if>
+      <if test="positionDescription != null" >
+        position_description,
+      </if>
+      <if test="positionLat != null" >
+        position_lat,
+      </if>
+      <if test="positionLng != null" >
+        position_lng,
+      </if>
+      <if test="hotels != null" >
+        hotels,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="days != null" >
+        #{days,jdbcType=INTEGER},
+      </if>
+      <if test="peoples != null" >
+        #{peoples,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="place != null" >
+        #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTitle != null" >
+        #{positionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDescription != null" >
+        #{positionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLat != null" >
+        #{positionLat,jdbcType=DOUBLE},
+      </if>
+      <if test="positionLng != null" >
+        #{positionLng,jdbcType=DOUBLE},
+      </if>
+      <if test="hotels != null" >
+        #{hotels,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gearcode.feawap.domain.TrainExample" resultType="java.lang.Integer" >
+    select count(*) from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update train
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.start != null" >
+        start = #{record.start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.end != null" >
+        end = #{record.end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.days != null" >
+        days = #{record.days,jdbcType=INTEGER},
+      </if>
+      <if test="record.peoples != null" >
+        peoples = #{record.peoples,jdbcType=INTEGER},
+      </if>
+      <if test="record.cost != null" >
+        cost = #{record.cost,jdbcType=INTEGER},
+      </if>
+      <if test="record.place != null" >
+        place = #{record.place,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.color != null" >
+        color = #{record.color,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionTitle != null" >
+        position_title = #{record.positionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionDescription != null" >
+        position_description = #{record.positionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positionLat != null" >
+        position_lat = #{record.positionLat,jdbcType=DOUBLE},
+      </if>
+      <if test="record.positionLng != null" >
+        position_lng = #{record.positionLng,jdbcType=DOUBLE},
+      </if>
+      <if test="record.hotels != null" >
+        hotels = #{record.hotels,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update train
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      start = #{record.start,jdbcType=TIMESTAMP},
+      end = #{record.end,jdbcType=TIMESTAMP},
+      days = #{record.days,jdbcType=INTEGER},
+      peoples = #{record.peoples,jdbcType=INTEGER},
+      cost = #{record.cost,jdbcType=INTEGER},
+      place = #{record.place,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      color = #{record.color,jdbcType=VARCHAR},
+      position_title = #{record.positionTitle,jdbcType=VARCHAR},
+      position_description = #{record.positionDescription,jdbcType=VARCHAR},
+      position_lat = #{record.positionLat,jdbcType=DOUBLE},
+      position_lng = #{record.positionLng,jdbcType=DOUBLE},
+      hotels = #{record.hotels,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update train
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      start = #{record.start,jdbcType=TIMESTAMP},
+      end = #{record.end,jdbcType=TIMESTAMP},
+      days = #{record.days,jdbcType=INTEGER},
+      peoples = #{record.peoples,jdbcType=INTEGER},
+      cost = #{record.cost,jdbcType=INTEGER},
+      place = #{record.place,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      color = #{record.color,jdbcType=VARCHAR},
+      position_title = #{record.positionTitle,jdbcType=VARCHAR},
+      position_description = #{record.positionDescription,jdbcType=VARCHAR},
+      position_lat = #{record.positionLat,jdbcType=DOUBLE},
+      position_lng = #{record.positionLng,jdbcType=DOUBLE},
+      hotels = #{record.hotels,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gearcode.feawap.domain.Train" >
+    update train
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="start != null" >
+        start = #{start,jdbcType=TIMESTAMP},
+      </if>
+      <if test="end != null" >
+        end = #{end,jdbcType=TIMESTAMP},
+      </if>
+      <if test="days != null" >
+        days = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="peoples != null" >
+        peoples = #{peoples,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="place != null" >
+        place = #{place,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTitle != null" >
+        position_title = #{positionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="positionDescription != null" >
+        position_description = #{positionDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="positionLat != null" >
+        position_lat = #{positionLat,jdbcType=DOUBLE},
+      </if>
+      <if test="positionLng != null" >
+        position_lng = #{positionLng,jdbcType=DOUBLE},
+      </if>
+      <if test="hotels != null" >
+        hotels = #{hotels,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gearcode.feawap.domain.Train" >
+    update train
+    set title = #{title,jdbcType=VARCHAR},
+      start = #{start,jdbcType=TIMESTAMP},
+      end = #{end,jdbcType=TIMESTAMP},
+      days = #{days,jdbcType=INTEGER},
+      peoples = #{peoples,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=INTEGER},
+      place = #{place,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      color = #{color,jdbcType=VARCHAR},
+      position_title = #{positionTitle,jdbcType=VARCHAR},
+      position_description = #{positionDescription,jdbcType=VARCHAR},
+      position_lat = #{positionLat,jdbcType=DOUBLE},
+      position_lng = #{positionLng,jdbcType=DOUBLE},
+      hotels = #{hotels,jdbcType=VARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gearcode.feawap.domain.Train" >
+    update train
+    set title = #{title,jdbcType=VARCHAR},
+      start = #{start,jdbcType=TIMESTAMP},
+      end = #{end,jdbcType=TIMESTAMP},
+      days = #{days,jdbcType=INTEGER},
+      peoples = #{peoples,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=INTEGER},
+      place = #{place,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      icon = #{icon,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      color = #{color,jdbcType=VARCHAR},
+      position_title = #{positionTitle,jdbcType=VARCHAR},
+      position_description = #{positionDescription,jdbcType=VARCHAR},
+      position_lat = #{positionLat,jdbcType=DOUBLE},
+      position_lng = #{positionLng,jdbcType=DOUBLE},
+      hotels = #{hotels,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.gearcode.feawap.domain.TrainExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.TrainExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from train
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

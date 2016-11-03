@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="/Users/leejason/.m2/repository/mysql/mysql-connector-java/5.1.1/mysql-connector-java-5.1.1.jar" />
+
+	<context id="tables" targetRuntime="MyBatis3">
+	
+		<!-- 开启分页插件 -->
+		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+
+		<!-- 去掉注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://fanyanan.com:3306/feawap" userId="feawap" password="pawaeF@)!(">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.gearcode.feawap.domain" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.gearcode.feawap.persistence" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.gearcode.feawap.persistence" targetProject="src/main/java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+		<table tableName="%">
+			<!-- 使insert返回新记录id -->
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+		</table>
+	</context>
+</generatorConfiguration>

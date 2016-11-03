@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gearcode.feawap.persistence.ApplicantMapper" >
+  <resultMap id="BaseResultMap" type="com.gearcode.feawap.domain.Applicant" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="recuitment_id" property="recuitmentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="INTEGER" />
+    <result column="cellphone" property="cellphone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="graduation_time" property="graduationTime" jdbcType="TIMESTAMP" />
+    <result column="graduate_institutions" property="graduateInstitutions" jdbcType="VARCHAR" />
+    <result column="highest_degree" property="highestDegree" jdbcType="INTEGER" />
+    <result column="professional" property="professional" jdbcType="VARCHAR" />
+    <result column="experience" property="experience" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="induction_time" property="inductionTime" jdbcType="VARCHAR" />
+    <result column="resume_pic" property="resumePic" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, recuitment_id, name, gender, cellphone, email, graduation_time, graduate_institutions, 
+    highest_degree, professional, experience, city, induction_time, resume_pic, created
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.ApplicantExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from applicant
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from applicant
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from applicant
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gearcode.feawap.domain.ApplicantExample" >
+    delete from applicant
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gearcode.feawap.domain.Applicant" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into applicant (recuitment_id, name, gender, 
+      cellphone, email, graduation_time, 
+      graduate_institutions, highest_degree, professional, 
+      experience, city, induction_time, 
+      resume_pic, created)
+    values (#{recuitmentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, 
+      #{cellphone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{graduationTime,jdbcType=TIMESTAMP}, 
+      #{graduateInstitutions,jdbcType=VARCHAR}, #{highestDegree,jdbcType=INTEGER}, #{professional,jdbcType=VARCHAR}, 
+      #{experience,jdbcType=INTEGER}, #{city,jdbcType=VARCHAR}, #{inductionTime,jdbcType=VARCHAR}, 
+      #{resumePic,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gearcode.feawap.domain.Applicant" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into applicant
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recuitmentId != null" >
+        recuitment_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="cellphone != null" >
+        cellphone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="graduationTime != null" >
+        graduation_time,
+      </if>
+      <if test="graduateInstitutions != null" >
+        graduate_institutions,
+      </if>
+      <if test="highestDegree != null" >
+        highest_degree,
+      </if>
+      <if test="professional != null" >
+        professional,
+      </if>
+      <if test="experience != null" >
+        experience,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="inductionTime != null" >
+        induction_time,
+      </if>
+      <if test="resumePic != null" >
+        resume_pic,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recuitmentId != null" >
+        #{recuitmentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="cellphone != null" >
+        #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null" >
+        #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="graduateInstitutions != null" >
+        #{graduateInstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="highestDegree != null" >
+        #{highestDegree,jdbcType=INTEGER},
+      </if>
+      <if test="professional != null" >
+        #{professional,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        #{experience,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="inductionTime != null" >
+        #{inductionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="resumePic != null" >
+        #{resumePic,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gearcode.feawap.domain.ApplicantExample" resultType="java.lang.Integer" >
+    select count(*) from applicant
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update applicant
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.recuitmentId != null" >
+        recuitment_id = #{record.recuitmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=INTEGER},
+      </if>
+      <if test="record.cellphone != null" >
+        cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduationTime != null" >
+        graduation_time = #{record.graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.graduateInstitutions != null" >
+        graduate_institutions = #{record.graduateInstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.highestDegree != null" >
+        highest_degree = #{record.highestDegree,jdbcType=INTEGER},
+      </if>
+      <if test="record.professional != null" >
+        professional = #{record.professional,jdbcType=VARCHAR},
+      </if>
+      <if test="record.experience != null" >
+        experience = #{record.experience,jdbcType=INTEGER},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inductionTime != null" >
+        induction_time = #{record.inductionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resumePic != null" >
+        resume_pic = #{record.resumePic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update applicant
+    set id = #{record.id,jdbcType=INTEGER},
+      recuitment_id = #{record.recuitmentId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=INTEGER},
+      cellphone = #{record.cellphone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      graduation_time = #{record.graduationTime,jdbcType=TIMESTAMP},
+      graduate_institutions = #{record.graduateInstitutions,jdbcType=VARCHAR},
+      highest_degree = #{record.highestDegree,jdbcType=INTEGER},
+      professional = #{record.professional,jdbcType=VARCHAR},
+      experience = #{record.experience,jdbcType=INTEGER},
+      city = #{record.city,jdbcType=VARCHAR},
+      induction_time = #{record.inductionTime,jdbcType=VARCHAR},
+      resume_pic = #{record.resumePic,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gearcode.feawap.domain.Applicant" >
+    update applicant
+    <set >
+      <if test="recuitmentId != null" >
+        recuitment_id = #{recuitmentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="cellphone != null" >
+        cellphone = #{cellphone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="graduationTime != null" >
+        graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="graduateInstitutions != null" >
+        graduate_institutions = #{graduateInstitutions,jdbcType=VARCHAR},
+      </if>
+      <if test="highestDegree != null" >
+        highest_degree = #{highestDegree,jdbcType=INTEGER},
+      </if>
+      <if test="professional != null" >
+        professional = #{professional,jdbcType=VARCHAR},
+      </if>
+      <if test="experience != null" >
+        experience = #{experience,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="inductionTime != null" >
+        induction_time = #{inductionTime,jdbcType=VARCHAR},
+      </if>
+      <if test="resumePic != null" >
+        resume_pic = #{resumePic,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gearcode.feawap.domain.Applicant" >
+    update applicant
+    set recuitment_id = #{recuitmentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      graduate_institutions = #{graduateInstitutions,jdbcType=VARCHAR},
+      highest_degree = #{highestDegree,jdbcType=INTEGER},
+      professional = #{professional,jdbcType=VARCHAR},
+      experience = #{experience,jdbcType=INTEGER},
+      city = #{city,jdbcType=VARCHAR},
+      induction_time = #{inductionTime,jdbcType=VARCHAR},
+      resume_pic = #{resumePic,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.gearcode.feawap.domain.ApplicantExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from applicant
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
